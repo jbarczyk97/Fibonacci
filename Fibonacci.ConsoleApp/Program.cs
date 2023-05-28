@@ -2,7 +2,11 @@
 
 const int input = 15;
 
+// Assuming not console app memoization could be handy
+var cache = new Dictionary<int, int>();
+
 Console.WriteLine(CalculateFibonacci(input));
+Console.WriteLine(CalculateFibonacci(input - 1));
 
 int CalculateFibonacci(int value)
 {
@@ -14,6 +18,11 @@ int CalculateFibonacci(int value)
             return 1;
     }
 
+    if (cache.TryGetValue(value, out var result))
+    {
+        return result;
+    }
+
     var previous = 1;
     var current = 1;
 
@@ -22,6 +31,8 @@ int CalculateFibonacci(int value)
         var next = previous + current;
         previous = current;
         current = next;
+
+        cache[i] = current;
     }
 
     return current;
